@@ -9,7 +9,7 @@ const io = new Server(server);
 
 app.use(express.static('public'));
 
-mongoose.connect('process.env.MNG_URL, {
+mongoose.connect('process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
