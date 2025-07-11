@@ -9,7 +9,7 @@ const io = new Server(server);
 
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://mongo:27017/chatdb', {
+mongoose.connect('process.env.MNG_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
