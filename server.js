@@ -3,13 +3,16 @@ const http = require('http');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const boydParser = require('body-parser');
+/*const boydParser = require('body-parser');*/
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+/*app.use(bodyParser.urlencoded({ extended: true }));*/
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));
 
 const users = { user1: "pass1", user2: "pass2" };
