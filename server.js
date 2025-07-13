@@ -2,10 +2,44 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const boydParser = require('body-parser');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));
+
+const users = { user1: "pass1", user2: "pass2" };
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (users[username] === password) {
+        req.session.user = username;
+        res.redirect('/chat');
+    } else {
+        res.send('Invalid login');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
+app.get('/chat', (req, res) => {
+    if (!req.session.user) return
+    res.redirect('/login');
+    res.sendFile(__dirname + '/index.html');
+});
+
+
+
 
 app.use(express.static('public'));
 
